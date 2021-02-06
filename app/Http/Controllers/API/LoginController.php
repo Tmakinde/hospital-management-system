@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\support\Facades\Auth;
 use Validator;
 use App\Models\User;
 
@@ -25,16 +25,18 @@ class LoginController extends Controller
             $user = User::where('email', $email)->first();
             $credentials = $request->only('password', 'email');
 
-            if(auth()->attempt($credentials)){
+            if($token = auth()->attempt($credentials)){
 
                 return response()->json([
-                    'token' => auth()->login($user),
+
+                    'token' => $this->respondWithToken($token),
+
                 ], 200);
 
             }
 
             return response()->json([
-                'message' => "provide valid details",
+                'message' => "provide a valid details",
             ], 401);
         }
 
@@ -42,5 +44,15 @@ class LoginController extends Controller
             'message' => $validator->errors(),
         ], 401);
         
+    }
+
+    protected function respondWithToken($token)
+    {
+        
+        return response()->json([
+            'access_token' => $token,
+            'token_type'=> 'bearer',
+        ]);
+
     }
 }
