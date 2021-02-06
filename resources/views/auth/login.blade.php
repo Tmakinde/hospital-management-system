@@ -1,82 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Alakada | Login</title>
-    <!-- include libraries(jQuery, bootstrap) -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    
-    </head>
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Login') }}</div>
 
-<style>
-.form-signin{
-  max-width:400px;
- border: 1px solid grey;
-border-radius: 20px;
-background-color:whitesmoke;
-}
-</style>
+                <div class="card-body">
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
 
-<body style="background-color:blue">
-  <div class="container">
-    <div class="row" style="width:100%">
-      <div class="col-md-6 col-sm-4 ratio-box" style="margin-bottom:-255px">
-        <img class="mediabox-img lazyload" src="{{asset('/img/img3.jpg')}}" width="100%" style="height:100%">
-      </div>
-      <div class="col-md-6 col-sm-8 pt-sm-5">
-        <div class="pt-5">
-          <form method = 'post' action = "{{route('login')}}" style="100%">
-            @csrf
-            @if ($errors->any())
-            
-            @foreach ($errors->all() as $error)
-              <h6 class = 'text-danger' style = "float:center;margin-left:35px;margin-bottom:10px">{{$error}}</h6>
-            @endforeach
-          
-          @endif
-          @if($message = Session::get('Success'))
-            <div class ="alert alert-success">
-              {{$message}}
+                        <div class="form-group row">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+
+                                    <label class="form-check-label" for="remember">
+                                        {{ __('Remember Me') }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Login') }}
+                                </button>
+
+                                @if (Route::has('password.request'))
+                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                        {{ __('Forgot Your Password?') }}
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-          @endif
-          @if($message = Session::get('Error'))
-            <div class ="alert alert-success">
-              {{$message}}
-            </div>
-          @endif
-            <div class="card-header">
-              <h1 class="h3 mb-3 font-weight-normal">Login Page</h1>
-            </div>
-            <div class="card-body">
-              <label for="inputEmail" class="sr-only">Username</label>
-              <input type="text" id="inputEmail" class="form-control" value = "<?= old('username'); ?>" name ='username' placeholder="Username">
-            </div>
-            <div class="card-body">
-              <label for="inputPassword" class="sr-only">Password</label>
-              <input type="password" id="inputPassword" class="form-control" value = "<?= old('password'); ?>" placeholder="Password" name ='password'>
-            </div>
-            <div class="card-body">
-              <div class="checkbox mb-3">
-                <label>
-                  <input type="checkbox" value="remember-me"> Remember me
-                </label>
-              </div>
-            </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-            <span class="mt-5 ml-5" style="float:right;"><a href = "{{route('password.request')}}" class = 'mt-2'><b style="color:black">Forgot Password ?</b></a></span>
-            <p class="mt-5 mb-3" style="color:black">&copy; 2020</p>
-          </form>
         </div>
-      </div>
     </div>
-  </div>
-
-  
-</body>
-</html>
+</div>
+@endsection

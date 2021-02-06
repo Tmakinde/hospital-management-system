@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Role;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -53,7 +55,7 @@ class RegisterController extends Controller
 
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string',],
             'dob' => ['required', 'string'],
             'phone' => ['required', 'string'],
             'address' => ['required', 'string'],
@@ -67,9 +69,10 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function create(array $data, Request $request)
     {
         $role = Role::where('role', $request->role)->first();
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -77,6 +80,24 @@ class RegisterController extends Controller
             'dob' => $data['dob'],
             'role_id' => $role->id,
             'address' => $data['address'],
+            'phone' => $data['phone'],
         ]);
+
+    }
+
+    public function showRegisterForm(Request $request){
+
+        return view('Register');
+
+    }
+
+    public function register(Request $request){
+        $input = $request->all();
+        $validator = $this->validator($input);
+        if($validator->passes()){
+            $this->create($input, $request);
+            return redirect()->route('dashboard');
+        }
+        return redirect()->back()->withInput()->withErrors($validator);
     }
 }
