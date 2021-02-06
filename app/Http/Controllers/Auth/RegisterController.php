@@ -93,11 +93,24 @@ class RegisterController extends Controller
 
     public function register(Request $request){
         $input = $request->all();
+        $name =  $request->name;
+        $email =  $request->email;
+        $data = compact('name', 'email');
         $validator = $this->validator($input);
+
         if($validator->passes()){
             $this->create($input, $request);
+
+            Mail::send(
+                'Mail.Registration',
+                $data,
+                function ($m) use ($data) {
+                $m->to($data['email'])->subject('Notification Message From'.env('APP_NAME'));
+            });
+
             return redirect()->route('dashboard');
         }
+
         return redirect()->back()->withInput()->withErrors($validator);
     }
 }

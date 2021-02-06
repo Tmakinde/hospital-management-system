@@ -7,7 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Models\User;
-class LoginController extends Controller
+class DoctorLoginController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -36,7 +36,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        return $this->middleware('guest')->except('logout');
     }
 
     public function login(Request $request){
@@ -45,11 +45,14 @@ class LoginController extends Controller
     public function authenticate(Request $request){
 
         $credentials = $request->all();
-
+        
+        /*
+        *   login user
+        */
         $user = User::where('email',$request->email)->first();
         if ($user) {
             Auth::login($user);
-            return redirect()->intended(route('parent.dashboard'));
+            return redirect()->intended(route('doctor.dasboard'));
         }
         return redirect()->back()->withErrors('Incorrect Login Credentials');
     }

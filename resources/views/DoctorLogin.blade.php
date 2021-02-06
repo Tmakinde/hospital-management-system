@@ -31,7 +31,7 @@ background-color:whitesmoke;
       </div>
       <div class="col-md-6 col-sm-8 pt-sm-5">
         <div class="pt-5">
-          <form method = 'post' action = "{{route('parent.login')}}" style="100%">
+          <form method = 'post' action = "{{route('login')}}" style="100%">
             @csrf
             @if ($errors->any())
             

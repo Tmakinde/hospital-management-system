@@ -19,9 +19,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
-Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'authenticate'])->name('login');
-Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegisterForm'])->name('dashboard');
+Route::get('/patient/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
+Route::post('/patient/login', [App\Http\Controllers\Auth\LoginController::class, 'authenticate'])->name('parent.login');
+
+Route::get('/doctor/login', [App\Http\Controllers\Auth\DotorLoginController::class, 'login']);
+Route::post('/doctor/login', [App\Http\Controllers\Auth\DoctorLoginController::class, 'authenticate'])->name('doctor.login');
+
+Route::get('/patient', [App\Http\Controllers\Auth\RegisterController::class, 'showRegisterForm'])->name('patient.dashboard');
+Route::get('/doctor', [App\Http\Controllers\Auth\RegisterController::class, 'showRegisterForm'])->name('doctor.dashboard');
 
 Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegisterForm']);
 Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
