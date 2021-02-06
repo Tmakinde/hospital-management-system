@@ -40,6 +40,9 @@ class LoginController extends Controller
     }
 
     public function login(Request $request){
+        return view('auth.login');
+    }
+    public function authenticate(Request $request){
 
         $credentials = $request->all();
         
