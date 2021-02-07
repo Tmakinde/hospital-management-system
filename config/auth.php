@@ -41,6 +41,11 @@ return [
             'provider' => 'users',
         ],
 
+        'doctors' => [
+            'driver' => 'session',
+            'provider' => 'doctors',
+        ],
+
         'api' => [
             'driver' => 'jwt',
             'provider' => 'users',
@@ -69,6 +74,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        'doctors' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Doctor::class,
         ],
 
         // 'users' => [

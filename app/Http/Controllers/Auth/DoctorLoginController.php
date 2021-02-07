@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Auth;
 class DoctorLoginController extends Controller
 {
     /*
@@ -34,32 +35,32 @@ class DoctorLoginController extends Controller
      *
      * @return void
      */
+
     public function __construct()
     {
-        return $this->middleware('guest')->except('logout');
+        return $this->middleware('guest:doctors')->except('logout');
     }
 
     public function login(Request $request){
-        return view('Login');
+        return view('Doctor.Login');
     }
+
     public function authenticate(Request $request){
 
-        $credentials = $request->all();
-        
-        /*
-        *   login user
-        */
-        $user = User::where('email',$request->email)->first();
-        if ($user) {
-            Auth::login($user);
-            return redirect()->intended(route('doctor.dasboard'));
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::guard('doctors')->attempt($credentials)) {
+            
+            return redirect()->intended(route('doctor.dashboard'));
+
         }
-        return redirect()->back()->withErrors('Incorrect Login Credentials');
+        return redirect()->back()->withInput()->withErrors('Incorrect Login Credentials');
+
     }
 
     public function logout(){
         Auth::logout();
-        return redirect('/login');
+        return redirect()->to(route('doctorlogin.show'));
     }
     
 }

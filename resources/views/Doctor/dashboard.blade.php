@@ -1,4 +1,4 @@
-@extend('Doctor.layouts.master')
+@extends('Doctor.layouts.master')
 
 @section('title')
 Hospital Web App  | All Appointments
@@ -6,7 +6,7 @@ Hospital Web App  | All Appointments
 
 @section('content')
 
-
+<h1>hello</h1>
 @endsection
 
 @section('script')

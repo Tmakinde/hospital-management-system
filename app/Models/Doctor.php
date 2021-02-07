@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class Doctor extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
@@ -55,7 +55,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function appointments(){
-        return $this->hasOne(Appointment::class, 'user_id');
+        return $this->hasMany(Appointment::class, 'doctor_id');
     }
 
 }

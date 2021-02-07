@@ -69,7 +69,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data, Request $request)
+    protected function createPatient(array $data, Request $request)
     {
         $role = Role::where('role', $request->role)->first();
 
@@ -78,7 +78,21 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'dob' => $data['dob'],
-            'role_id' => $role->id,
+            'address' => $data['address'],
+            'phone' => $data['phone'],
+        ]);
+
+    }
+
+    protected function createDoctor(array $data, Request $request)
+    {
+        $role = Role::where('role', $request->role)->first();
+
+        return Doctor::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'dob' => $data['dob'],
             'address' => $data['address'],
             'phone' => $data['phone'],
         ]);
@@ -95,20 +109,34 @@ class RegisterController extends Controller
         $input = $request->all();
         $name =  $request->name;
         $email =  $request->email;
+        $role = $request->role;
         $data = compact('name', 'email');
         $validator = $this->validator($input);
 
         if($validator->passes()){
-            $this->create($input, $request);
+            if($role == 'Doctor'){
+                $this->createDoctor($input, $request);
 
-            Mail::send(
-                'Mail.Registration',
-                $data,
-                function ($m) use ($data) {
-                $m->to($data['email'])->subject('Notification Message From'.env('APP_NAME'));
-            });
+                Mail::send(
+                    'Mail.Registration',
+                    $data,
+                    function ($m) use ($data) {
+                    $m->to($data['email'])->subject('Notification Message From'.env('APP_NAME'));
+                });
+    
+                return redirect()->route('doctorlogin.show');
+            }elseif ($role == 'Patient') {
+                $this->createPatient($input, $request);
 
-            return redirect()->route('dashboard');
+                Mail::send(
+                    'Mail.Registration',
+                    $data,
+                    function ($m) use ($data) {
+                    $m->to($data['email'])->subject('Notification Message From'.env('APP_NAME'));
+                });
+    
+                return redirect()->route('patientlogin.show');
+            }
         }
 
         return redirect()->back()->withInput()->withErrors($validator);

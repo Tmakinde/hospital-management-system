@@ -9,10 +9,6 @@
   <!-- jquery link -->
   <script src = "https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-  <!-- include libraries(jQuery, bootstrap) -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     
     <link rel="stylesheet" href="{{ url('css/bootstrap.min.css') }}">
 
@@ -65,8 +61,8 @@
 </head>
 
   <body id ="body">
-    <nav class="navbar navbar-expand-lg fixed-top bg-dark navbar-dark text-right">
-        HOSPITAL WEB APP
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">HOSPITAL WEB APP</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -76,13 +72,13 @@
                     <a class="nav-link " href="#">Dashboard</a>
                 </li>
                 <li class="nav-item m-auto pl-lg-5">
-                    <a class="nav-link" href="#">My Appointments</a>
+                    <a class="nav-link" href="{{route('doctor.appointment')}}">My Appointments</a>
                 </li>
                 <li class="nav-item m-auto pl-lg-5">
                 <a class="nav-link" href="#">Messages<i class="fas fa-bell ml-2"></i></a>
                 </li>
                 <li class="nav-item m-auto pl-lg-5">
-                <a class="nav-link" href="{{route('logout')}}">Sign out</a> 
+                <a class="nav-link" href="{{route('doctor.logout')}}">Sign out</a> 
                 </li>
             </ul>
         </div>
@@ -90,7 +86,6 @@
         @yield('content')
 
         @yield('scripts')
-        <script type="text/javascript" src="{{asset('js/sign-in-page/js/jquery-3.5.1.min.js')}}"></script>
         <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>  
         @show
     </body>

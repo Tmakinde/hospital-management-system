@@ -44,9 +44,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
-        'doctor' => [
-            \App\Http\Middleware\DoctorMiddleware::class,
-        ]
+        
     ];
 
     /**

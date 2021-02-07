@@ -12,11 +12,11 @@ class DoctorController extends Controller
 {
     //
     public function __construct(){
-        return $this->middleware('DoctorMiddleware:api');
+    return $this->middleware('auth:doctors');
     }
 
     public function index(){
-        return view('Dashboard');
+        return view('Doctor.dashboard');
     }
 
     public function currentUser(){
@@ -24,18 +24,32 @@ class DoctorController extends Controller
     }
 
     public function showAppointmentForm(){
-        return view('Doctor.Appointment');
+        $appointments  = Appointment::where('doctor_id', $this->currentUser()->id)->get();
+        return view('Doctor.Appointment', compact('appointments'));
     }
 
-    public function createAppointment(Request $request){
-
+    public function createAppointment(Request $request){;
         $user = Auth::user();
         $timeslot = $request->appointment;
-        $appointment  = new Appointment;
-        $appointment  = $timeslot;
-        $appointment->doctor_id = $user->id;
-        $appointment->save();
-        return redirect()->back()->with(['message' => 'Appointment Created Successfully']);
+        $query = Appointment::where('doctor_id', $this->currentUser()->id)->get();
+        $checker = false;
+
+        foreach ($query as $key) {
+            
+            if ($key->appointment == $timeslot) {
+                $checker = true;
+                break;
+            }
+        }
+        if (!$checker) {
+            
+            $appointment  = new Appointment;
+            $appointment->appointment  = $timeslot;
+            $appointment->doctor_id = $user->id;
+            $appointment->save();
+            return redirect()->route('doctor.appointment')->with(['message' => 'Appointment Created Successfully']);
+        }
+        return redirect()->back()->with(['message' => 'Oh! You have a appointment for this already']);
 
     }
 
@@ -43,7 +57,6 @@ class DoctorController extends Controller
         $appointment  = Appointment::whereId($id)
                         ->where('doctor_id', $this->currentUser()->id)
                         ->firstOrFail();
-
         $appointment->delete();
         return redirect()->back()->with(['message' => 'Appointment Deleted Successfully']);
     }

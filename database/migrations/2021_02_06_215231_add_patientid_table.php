@@ -16,9 +16,9 @@ class AddPatientidTable extends Migration
 
         Schema::table('appointments', function (Blueprint $table) {
             
-            $table->bigInteger('patient_id')->after('doctor_id')->nullable()->unsigned();
+            $table->bigInteger('user_id')->after('doctor_id')->nullable()->unsigned();
             
-            $table->foreign('patient_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             
         });
 

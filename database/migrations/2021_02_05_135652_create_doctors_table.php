@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRolesMigration extends Migration
+class CreateDoctorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,14 @@ class CreateRolesMigration extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('doctors', function (Blueprint $table) {
             $table->id();
-            $table->string('role');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('address');
+            $table->string('phone');
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -27,6 +32,6 @@ class CreateRolesMigration extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles_migration');
+        Schema::dropIfExists('doctors');
     }
 }

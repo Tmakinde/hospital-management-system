@@ -36,27 +36,27 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest:web')->except('logout');
     }
 
     public function login(Request $request){
-        return view('Login');
+        return view('Patient.Login');
     }
     public function authenticate(Request $request){
 
-        $credentials = $request->all();
+        $credentials = $request->only('email', 'password');
 
-        $user = User::where('email',$request->email)->first();
-        if ($user) {
-            Auth::login($user);
-            return redirect()->intended(route('parent.dashboard'));
+        if (Auth::attempt($credentials)) {
+            
+            return redirect()->intended(route('patient.dashboard'));
+
         }
-        return redirect()->back()->withErrors('Incorrect Login Credentials');
+        return redirect()->back()->withInput()->withErrors('Incorrect Login Credentials');
     }
 
     public function logout(){
         Auth::logout();
-        return redirect('/login');
+        return redirect()->to(route('patientlogin.show'));
     }
     
 }

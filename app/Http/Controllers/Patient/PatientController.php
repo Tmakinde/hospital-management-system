@@ -15,7 +15,7 @@ class PatientController extends Controller
         return $this->middleware('auth:api');
     }
     public function index(){
-        return view('Dashboard');
+        return view('Patient.dashboard');
     }
     public function currentUser(){
         return Auth::user();
