@@ -51,22 +51,21 @@ Hospital Web App  | All Appointments
             <div class="form-group">
 
                 <select class="form-control" name="appointment" style="margin-top:50px">
-                <option selected>9:30AM</option>
-                <option>10:00AM</option>
-                <option>10:30AM</option>
-                <option>11:00AM</option>
-                <option>11:30AM</option>
-                <option>12:00PM</option>
-                <option>12:30PM</option>
-                <option>01:00PM</option>
-                <option>01:30PM</option>
-                <option>02:00PM</option>
-                <option>02:30PM</option>
-                <option>03:00PM</option>
-                <option>03:30PM</option>
-                <option>04:00PM</option>
-                <option>04:30PM</option>
-                <option>05:00PM</option>
+                <option selected>9:00AM - 9:30AM</option>
+                <option>10:00AM - 10:30AM</option>
+                <option>10:30AM - 11:00AM</option>
+                <option>11:00AM - 11:30AM</option>
+                <option>11:30AM - 12:00PM</option>
+                <option>12:00PM - 12:30PM</option>
+                <option>12:30PM - 01:00PM</option>
+                <option>01:00PM - 01:30PM</option>
+                <option>01:30PM - 02:00PM</option>
+                <option>02:00PM - 02:30PM</option>
+                <option>02:30PM - 03:00PM</option>
+                <option>03:00PM - 03:30PM</option>
+                <option>03:30PM - 04:00PM</option>
+                <option>04:00PM - 04:30PM</option>
+                <option>04:30PM - 05:00PM</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-success">Submit Appointment</button>

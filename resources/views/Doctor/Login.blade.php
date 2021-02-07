@@ -58,7 +58,7 @@ background-color:whitesmoke;
             </div>
             <div class="card-body">
               <label for="inputEmail" class="sr-only">Email</label>
-              <input type="text" id="inputEmail" class="form-control" value = "<?= old('email'); ?>" name ='email' placeholder="Username">
+              <input type="text" id="inputEmail" class="form-control" value = "<?= old('email'); ?>" name ='email' placeholder="Email Address">
             </div>
             <div class="card-body">
               <label for="inputPassword" class="sr-only">Password</label>

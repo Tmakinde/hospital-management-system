@@ -8,9 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Alakada | Login</title>
     <!-- include libraries(jQuery, bootstrap) -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ url('css/bootstrap.min.css') }}">
     
     </head>
 
@@ -55,7 +53,7 @@ background-color:whitesmoke;
             </div>
             <div class="card-body">
               <label for="inputEmail" class="sr-only">Username</label>
-              <input type="text" id="inputEmail" class="form-control" value = "<?= old('username'); ?>" name ='username' placeholder="Username">
+              <input type="text" id="inputEmail" class="form-control" value = "<?= old('email'); ?>" name ='email' placeholder="Email Address>
             </div>
             <div class="card-body">
               <label for="inputPassword" class="sr-only">Password</label>
@@ -69,7 +67,7 @@ background-color:whitesmoke;
               </div>
             </div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-            <span class="mt-5 ml-5" style="float:right;"><a href = "{{route('password.request')}}" class = 'mt-2'><b style="color:black">Forgot Password ?</b></a></span>
+            <span class="mt-5 ml-5" style="float:right;"><a href = "#" class = 'mt-2'><b style="color:black">Forgot Password ?</b></a></span>
             <p class="mt-5 mb-3" style="color:black">&copy; 2020</p>
           </form>
         </div>
@@ -77,6 +75,7 @@ background-color:whitesmoke;
     </div>
   </div>
 
-  
+  <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>  
+
 </body>
 </html>

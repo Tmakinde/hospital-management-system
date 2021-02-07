@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\Appointment;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,5 +25,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        view()->composer('*', function($view){
+            $countAvailableAppointment = Appointment::where('user_id', null)->count();
+            if (auth()->check()) {
+                view()->share('countAvailableAppointment', $countAvailableAppointment);
+            }
+        });
     }
 }
