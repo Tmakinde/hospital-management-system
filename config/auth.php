@@ -51,6 +51,18 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
+        'doctorAPI' => [
+            'driver' => 'jwt',
+            'provider' => 'doctors',
+            'hash' => false,
+        ],
+
+        'userAPI' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+            'hash' => false,
+        ],
     ],
 
     /*

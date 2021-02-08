@@ -14,25 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::post('/login', [App\Http\Controllers\API\LoginController::class, 'authenticate']);
 
+Route::post('/patient/login', [App\Http\Controllers\API\LoginController::class, 'authenticate']);
+Route::get('/patient/appointment', [App\Http\Controllers\API\PatientController::class, 'showAppointmentPage']);
+Route::post('/patient/', [App\Http\Controllers\API\PatientController::class, 'showUser']);
+Route::post('/patient/appointment/{id}', [App\Http\Controllers\API\PatientController::class, 'bookAppointment']);
+Route::post('/patient/appointment/delete/{id}', [App\Http\Controllers\API\PatientController::class, 'cancelBookAppointment']);
+Route::get('/patient/logout', [App\Http\Controllers\API\LoginController::class, 'logout'])->name('patient.logout');
 
-//Route::get('/patient/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('patientlogin.show');
-Route::post('/patient/login', [App\Http\Controllers\Auth\LoginController::class, 'authenticate']);
-Route::get('/patient', [App\Http\Controllers\Patient\PatientController::class, 'index']);
-Route::get('/patient/appointment', [App\Http\Controllers\Patient\PatientController::class, 'showAppointmentPage']);
-Route::post('/patient/appointment/{id}', [App\Http\Controllers\Patient\PatientController::class, 'bookAppointment'])->name('patient.appointment.save');
-Route::post('/patient/appointment/delete/{id}', [App\Http\Controllers\Patient\PatientController::class, 'cancelBookAppointment'])->name('patient.appointment.delete');
-Route::get('/patient/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('patient.logout');
+Route::post('/doctor/login', [App\Http\Controllers\API\DoctorLoginController::class, 'authenticate']);
+Route::get('/doctor/', [App\Http\Controllers\API\DoctorController::class, 'showUser']);
+Route::get('/doctor/logout', [App\Http\Controllers\API\DoctorLoginController::class, 'logout']);
+Route::post('/doctor/appointment/save', [App\Http\Controllers\API\DoctorController::class, 'createAppointment']);
+Route::post('/doctor/appointment/delete/{id}', [App\Http\Controllers\API\DoctorController::class, 'deleteAppointment']);
 
-Route::get('/doctor/login', [App\Http\Controllers\Auth\DoctorLoginController::class, 'login'])->name('doctorlogin.show');
-Route::post('/doctor/login', [App\Http\Controllers\Auth\DoctorLoginController::class, 'authenticate'])->name('doctor.login');
-Route::get('/doctor/logout', [App\Http\Controllers\Auth\DoctorLoginController::class, 'logout'])->name('doctor.logout');
-Route::get('/doctor/appointment', [App\Http\Controllers\Doctor\DoctorController::class, 'showAppointmentForm'])->name('doctor.appointment');
-Route::post('/doctor/appointment/save', [App\Http\Controllers\Doctor\DoctorController::class, 'createAppointment'])->name('doctor.appointment.save');
-Route::post('/doctor/appointment/delete/{id}', [App\Http\Controllers\Doctor\DoctorController::class, 'deleteAppointment'])->name('doctor.appointment.delete');
-Route::get('/doctor', [App\Http\Controllers\Doctor\DoctorController::class, 'index'])->name('doctor.dashboard');
-
-Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegisterForm']);
-Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
+Route::post('/register', [App\Http\Controllers\API\RegisterController::class, 'register']);
 

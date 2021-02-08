@@ -14,20 +14,17 @@ use Auth;
 class PatientController extends Controller
 {
     public function __construct(){
-        return $this->middleware('auth')->except('index');
-    }
-    public function index(){
-        return view('Patient.dashboard');
+        return $this->middleware('guest:userAPI');
     }
 
     public function currentUser(){
         return Auth::user();
     }
 
-    public function showAppointmentPageView(Request $request){
-        
-        return view('Patient.Appointment');
-        
+    public function showUser(){
+        return response()->json([
+            'Patient'=> $this->currentUser(),
+        ], 200);
     }
 
     public function showAppointmentPage(Request $request){
@@ -37,8 +34,8 @@ class PatientController extends Controller
         $availableAppointments = Appointment::all();
 
         return response()->json([
-            'appointment' => $appointment,
-            'availableAppointments' => $availableAppointments,
+            'My appointment' => $appointment,
+            'Doctors Appointments' => $availableAppointments,
         ], 200);
         
     }
@@ -79,24 +76,16 @@ class PatientController extends Controller
                     'message' => 'Your Appointment has been booked'
                 ]);
             }
-            return redirect()->back()->with(['message' => 'Oh! Appointment has been booked by another Patient']);
+            return response()->json([
+                'message' => 'Oh! Appointment has been booked by another Patient'
+            ], 200);
 
         }
-        return redirect()->back()->with(['message' => 'You cannot have more than one appointment']);
-
-    }
-
-    public function displaySelfBookAppointment(Request $request){
-
-        $appointment  = Appointment::where('patient_id', $this->currentUser()->id)->first();
-        return view('Patient.myAppointment', compact('appointment'));
-
-    }
-
-    public function displayAppointments(Request $request){
-
-        $appointment  = Appointment::where('patient_id', null)->get();
-        return view('Patient.allAppointment', compact('appointment'));
+       
+        return response()->json([
+            'message' => 'You cannot have more than one appointment'
+        ], 403);
+       
 
     }
 
@@ -109,15 +98,17 @@ class PatientController extends Controller
         if($this->currentUser()->appointments != null){
             $this->currentUser()->appointments->delete();
             $data = compact('doctorMail', 'patientName', 'patientMail');
-
-            return redirect()->back()->with([
+            
+            return response()->json([
                 'message' => 'Your Appointment has been canceled'
-            ]);
+            ], 200);
+            
         }
 
-        return redirect()->back()->with([
+        return response()->json([
             'message' => 'You are not authorize to cancel appointment!'
-        ]);
+        ], 200);
+
 
     }
 

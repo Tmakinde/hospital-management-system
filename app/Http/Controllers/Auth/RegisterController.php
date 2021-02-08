@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Role;
 use App\Models\User;
+use Mail;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
 
 class RegisterController extends Controller
@@ -71,7 +73,6 @@ class RegisterController extends Controller
      */
     protected function createPatient(array $data, Request $request)
     {
-        $role = Role::where('role', $request->role)->first();
 
         return User::create([
             'name' => $data['name'],
@@ -86,7 +87,6 @@ class RegisterController extends Controller
 
     protected function createDoctor(array $data, Request $request)
     {
-        $role = Role::where('role', $request->role)->first();
 
         return Doctor::create([
             'name' => $data['name'],
@@ -123,7 +123,7 @@ class RegisterController extends Controller
                     function ($m) use ($data) {
                     $m->to($data['email'])->subject('Notification Message From'.env('APP_NAME'));
                 });
-    
+                
                 return redirect()->route('doctorlogin.show');
             }elseif ($role == 'Patient') {
                 $this->createPatient($input, $request);

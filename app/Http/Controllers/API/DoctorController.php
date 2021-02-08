@@ -5,120 +5,72 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Role;
 use App\Models\Doctor;
 use App\Models\Appointment;
-use App\Models\AppointUser;
-use Auth;
 use Mail;
-
+use Auth;
+//
 class DoctorController extends Controller
 {
+    //
     public function __construct(){
-        return $this->middleware('auth')->except('index');
-    }
-    
-    public function index(){
-        return view('Patient.dashboard');
+        return $this->middleware('guest:doctorAPI');
     }
 
     public function currentUser(){
         return Auth::user();
     }
 
-    public function showAppointmentPageView(Request $request){
-        
-        return view('Patient.Appointment');
-        
-    }
-
-    public function showAppointmentPage(Request $request){
-
-        $appointment = $this->currentUser()->appointments;
-        $availableAppointments = Appointment::all();
-
+    public function showUser(){
         return response()->json([
-            'appointment' => $appointment,
-            'availableAppointments' => $availableAppointments,
+            'doctor'=> $this->currentUser(),
         ], 200);
-        
     }
 
-    public function bookAppointment(Request $request, $id){
+    public function createAppointment(Request $request){
+        $user = Auth::user();
+        $timeslot = $request->appointment;
+        $query = Appointment::where('doctor_id', $this->currentUser()->id)->get();
+        $checker = false;
 
-        $appointment  = Appointment::whereId($id)->firstOrFail();
-
-        $patientMail = $this->currentUser()->email;
-
-        $patientName =  $this->currentUser()->name;
-
-        $doctor = Doctor::whereId($appointment->doctor_id)->first();
-
-        $doctorMail = $doctor->email;
-
-        $allAppointment = Appointment::all();
-
-        $checker = $this->currentUser()->appointments;
-
-        $countRemainSlotUsed = $appointment->appointmentUser->count();
-
-        $Max = $appointment->max;
-
-        $appointment  = Appointment::whereId($id)->firstOrFail();
-        if ($checker == null) {
-
-            if($countRemainSlotUsed <= $Max){
-
-                $booking = new AppointUser;
-                $booking->appointment_id = $appointment->id;
-                $booking->user_id = $this->currentUser()->id;
-                $booking->save();
-
-                $data = compact('doctorMail', 'patientName', 'patientMail');
-
-                return redirect()->back()->with([
-                    'message' => 'Your Appointment has been booked'
-                ]);
+        foreach ($query as $key) {
+            
+            if ($key->appointment == $timeslot) {
+                $checker = true;
+                break;
             }
-            return redirect()->back()->with(['message' => 'Oh! Appointment has been booked by another Patient']);
-
         }
-        return redirect()->back()->with(['message' => 'You cannot have more than one appointment']);
-
-    }
-
-    public function displaySelfBookAppointment(Request $request){
-
-        $appointment  = Appointment::where('patient_id', $this->currentUser()->id)->first();
-        return view('Patient.myAppointment', compact('appointment'));
-
-    }
-
-    public function displayAppointments(Request $request){
-
-        $appointment  = Appointment::where('patient_id', null)->get();
-        return view('Patient.allAppointment', compact('appointment'));
-
-    }
-
-    public function cancelBookAppointment(Request $request, $id){
-        $appointment  = Appointment::whereId($id)->firstOrFail();
-        $patientMail = $this->currentUser()->email;
-        $patientName =  $this->currentUser()->name;
-        $doctorMail = Doctor::whereId($appointment->doctor_id)->first();
-
-        if($this->currentUser()->appointments != null){
-            $this->currentUser()->appointments->delete();
-            $data = compact('doctorMail', 'patientName', 'patientMail');
-
-            return redirect()->back()->with([
-                'message' => 'Your Appointment has been canceled'
-            ]);
+        if (!$checker) {
+            
+            $appointment  = new Appointment;
+            $appointment->appointment  = $timeslot;
+            $appointment->doctor_id = $this->currentUser()->id;
+            $appointment->max = $request->max;
+            $appointment->save();
+           
+            return response()->json([
+                'message' => 'Appointment Created Successfully'
+            ], 200);
+            
         }
-
-        return redirect()->back()->with([
-            'message' => 'You are not authorize to cancel appointment!'
-        ]);
+        return response()->json([
+            'message' => 'Oh! You have a appointment for this already'
+        ], 200);
 
     }
+
+    public function deleteAppointment(Request $request, $id){
+        $appointment  = Appointment::whereId($id)
+                        ->where('doctor_id', $this->currentUser()->id)
+                        ->firstOrFail();
+        $appointment->delete();
+       
+        return response()->json([
+                'message' => 'Appointment Deleted Successfully'
+            ], 200);
+      
+    }
+
 
 }

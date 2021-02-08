@@ -37,7 +37,7 @@ class DoctorLoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest:doctorAPI')->except('logout');
     }
 
     public function login(Request $request){
@@ -47,12 +47,14 @@ class DoctorLoginController extends Controller
     public function authenticate(Request $request){
 
         $credentials = $request->only('email', 'password');
-        if ($token = Auth::guard('web')->attempt($credentials)) {
+        if ($token = Auth::guard('doctorAPI')->attempt($credentials)) {
+            
             return response()->json([
                 'message' => 'User successfully signin',
                 'token' => $token,
 
             ], 200);
+
         }
         return response()->json([
             'message' => 'Incorrect Login Credentials',
@@ -61,7 +63,9 @@ class DoctorLoginController extends Controller
 
     public function logout(){
         Auth::logout();
-        return redirect()->to(route('patientlogin.show'));
+        return response()->json([
+            'message' => 'user successfully logout',
+        ], 200);
     }
     
 }

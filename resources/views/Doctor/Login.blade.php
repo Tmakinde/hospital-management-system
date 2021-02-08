@@ -6,7 +6,7 @@
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Alakada | Login</title>
+    <title>Hospital Web App</title>
     
         <link rel="stylesheet" href="{{ url('css/bootstrap.min.css') }}">
     
@@ -22,7 +22,7 @@ background-color:whitesmoke;
 </style>
 
 <body style="background-color:blue">
-  <div class="container">
+  <div class="">
     <div class="row" style="width:100%">
       <div class="col-md-6 col-sm-4 ratio-box" style="margin-bottom:-255px">
         <img class="mediabox-img lazyload" src="{{asset('/img/img3.jpg')}}" width="100%" style="height:100%">
@@ -54,7 +54,7 @@ background-color:whitesmoke;
             </div>
           @endif
             <div class="card-header">
-              <h1 class="h3 mb-3 font-weight-normal">Login Page</h1>
+              <h1 class="h3 mb-3 font-weight-normal" style="color:red">Doctor Login Page</h1>
             </div>
             <div class="card-body">
               <label for="inputEmail" class="sr-only">Email</label>
@@ -72,7 +72,7 @@ background-color:whitesmoke;
               </div>
             </div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-            <span class="mt-5 ml-5" style="float:right;"><a href = "#" class = 'mt-2'><b style="color:black">Forgot Password ?</b></a></span>
+            <span class="mt-5 ml-5" style="float:right;"><a href = "{{route('patientlogin.show')}}" class = 'mt-2'><b style="color:black">Login As a Patient</b></a></span>
             <p class="mt-5 mb-3" style="color:black">&copy; 2020</p>
           </form>
         </div>

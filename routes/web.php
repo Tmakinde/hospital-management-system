@@ -38,6 +38,8 @@ Route::get('/doctor', [App\Http\Controllers\Doctor\DoctorController::class, 'ind
 Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegisterForm']);
 Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
 
+Route::get('/api/documentation', [App\Http\Controllers\HomeController::class, 'index'])->name('api.doc');
+
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
