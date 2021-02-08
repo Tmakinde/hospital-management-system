@@ -9,7 +9,7 @@
   <!-- jquery link -->
   <script src = "https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <link rel="stylesheet" href="{{ url('/css/bootstrap.min.css') }}">
-  <link rel="stylesheet" href="{{ url('/css/css/all.css') }}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js" charset="utf-8"></script>
     <style>
         .jumbotron{
             margin-top:180px;clear:top;
@@ -57,7 +57,7 @@
 
   <body id ="body">
     <nav class="navbar navbar-expand-lg fixed-top bg-dark navbar-dark text-right">
-        HOSPITAL WEB APP
+        <a class="nav-link " href="{{route('doctor.dashboard')}}">HOSPITAL WEB APP</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -78,7 +78,6 @@
         @yield('content')
 
         @yield('scripts')
-        <script type="text/javascript" src="{{asset('js/sign-in-page/js/jquery-3.5.1.min.js')}}"></script>
         <script type="text/javascript" src="{{asset('/js/bootstrap.min.js')}}"></script>  
         @show
     </body>

@@ -15,7 +15,7 @@ class DoctorController extends Controller
 {
     //
     public function __construct(){
-        return $this->middleware('guest:doctorAPI');
+        return $this->middleware('auth:doctorAPI');
     }
 
     public function currentUser(){

@@ -134,7 +134,7 @@ class RegisterController extends Controller
                     function ($m) use ($data) {
                     $m->to($data['email'])->subject('Notification Message From'.env('APP_NAME'));
                 });
-    
+
                 return redirect()->route('patientlogin.show');
             }
         }
