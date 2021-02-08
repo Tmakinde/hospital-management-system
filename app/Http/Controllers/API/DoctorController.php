@@ -22,6 +22,20 @@ class DoctorController extends Controller
         return Auth::user();
     }
 
+    public function getDoctorPatients(){
+        $query = Appointment::where('doctor_id', $this->currentUser()->id)->get();
+        $array = [];
+        
+        foreach ($query as $key) {
+            $array[] = $key->users;
+        }
+        
+        return response()->json([
+            'Appointment List' => $array,
+        ], 200);
+
+    }
+
     public function showUser(){
         return response()->json([
             'doctor'=> $this->currentUser(),

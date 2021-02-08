@@ -59,7 +59,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function appointments(){
-        return $this->hasOne(AppointUser::class);
+        return $this->hasOne(AppointUser::class, 'user_id');
     }
 
 }

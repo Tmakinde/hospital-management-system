@@ -24,6 +24,7 @@ Route::get('/patient/logout', [App\Http\Controllers\API\LoginController::class, 
 
 Route::post('/doctor/login', [App\Http\Controllers\API\DoctorLoginController::class, 'authenticate']);
 Route::get('/doctor/', [App\Http\Controllers\API\DoctorController::class, 'showUser']);
+Route::get('/doctor/list/patients', [App\Http\Controllers\API\DoctorController::class, 'getDoctorPatients']);
 Route::get('/doctor/logout', [App\Http\Controllers\API\DoctorLoginController::class, 'logout']);
 Route::post('/doctor/appointment/save', [App\Http\Controllers\API\DoctorController::class, 'createAppointment']);
 Route::post('/doctor/appointment/delete/{id}', [App\Http\Controllers\API\DoctorController::class, 'deleteAppointment']);
