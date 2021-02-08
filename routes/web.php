@@ -22,7 +22,7 @@ Route::get('/', function () {
 Route::get('/patient/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('patientlogin.show');
 Route::post('/patient/login', [App\Http\Controllers\Auth\LoginController::class, 'authenticate'])->name('parent.login');
 Route::get('/patient', [App\Http\Controllers\Patient\PatientController::class, 'index'])->name('patient.dashboard');
-Route::get('/patient/appointment', [App\Http\Controllers\Patient\PatientController::class, 'showAppointmentPage'])->name('patient.appointment');
+Route::get('/patient/appointment', [App\Http\Controllers\Patient\PatientController::class, 'showAppointmentPageView'])->name('patient.appointment');
 Route::post('/patient/appointment/{id}', [App\Http\Controllers\Patient\PatientController::class, 'bookAppointment'])->name('patient.appointment.save');
 Route::post('/patient/appointment/delete/{id}', [App\Http\Controllers\Patient\PatientController::class, 'cancelBookAppointment'])->name('patient.appointment.delete');
 Route::get('/patient/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('patient.logout');

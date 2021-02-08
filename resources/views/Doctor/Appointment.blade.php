@@ -49,7 +49,6 @@ Hospital Web App  | All Appointments
                 </div>
             </div>
             <div class="form-group">
-
                 <select class="form-control" name="appointment" style="margin-top:50px">
                 <option selected>9:00AM - 9:30AM</option>
                 <option>10:00AM - 10:30AM</option>
@@ -67,6 +66,10 @@ Hospital Web App  | All Appointments
                 <option>04:00PM - 04:30PM</option>
                 <option>04:30PM - 05:00PM</option>
                 </select>
+            </div>
+            <div class="form-group">
+                <label for="max">Maximum Number Of Patient For Time Slot</label>
+                <input style="width:100%" type="number" min="1" name="max" required>
             </div>
             <button type="submit" class="btn btn-success">Submit Appointment</button>
         </form>

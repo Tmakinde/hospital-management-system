@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Patient;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Role;
+use App\Models\Doctor;
+use Mail;
 use App\Models\Appointment;
+use App\Models\AppointUser;
 use Auth;
 
 class PatientController extends Controller
 {
     public function __construct(){
-        return $this->middleware('auth');
+        return $this->middleware('guest');
     }
     public function index(){
         return view('Patient.dashboard');
@@ -22,40 +24,66 @@ class PatientController extends Controller
         return Auth::user();
     }
 
+    public function showAppointmentPageView(Request $request){
+
+        $appointment = $this->currentUser()->appointments;
+        if($appointment != null){
+            $appointment = Appointment::where('id', $appointment->appointment_id)->first();
+        }
+        
+        
+        $availableAppointments = Appointment::all();
+        
+        return view('Patient.Appointment', compact('appointment','availableAppointments'));
+        
+    }
+
     public function showAppointmentPage(Request $request){
 
         $appointment = $this->currentUser()->appointments;
-        $availableAppointments = Appointment::with('doctors')->where('user_id', null)->get();
-        //dd($availableAppointments);
-        return view('Patient.Appointment', compact('appointment','availableAppointments'));
-        ///
+        $availableAppointments = Appointment::all();
+        
+        //return view('Patient.Appointment', compact('appointment','availableAppointments'));
+        return response()->json([
+            'appointment' => $appointment,
+            'availableAppointments' => $availableAppointments,
+        ], 200);
+        
     }
 
     public function bookAppointment(Request $request, $id){
 
         $appointment  = Appointment::whereId($id)->firstOrFail();
+
         $patientMail = $this->currentUser()->email;
+
         $patientName =  $this->currentUser()->name;
-        $doctorMail = Doctor::whereId($appointment->doctor_id)->first();
+
+        $doctor = Doctor::whereId($appointment->doctor_id)->first();
+
+        $doctorMail = $doctor->email;
+
         $allAppointment = Appointment::all();
-        $checker = false;
 
-        foreach ($allAppointment as $app) {
+        $checker = $this->currentUser()->appointments;
 
-            if($app->user_id == $this->currentUser()->id){
-                $checker = true;
-                break;
-            }
+        $countRemainSlotUsed = $appointment->appointmentUser->count();
 
-        }
-        if (!$checker) {
+        $Max = $appointment->max;
 
-            if($appointment->user_id == null){
-                $appointment->user_id = $this->currentUser()->id;
-                $appointment->save();
+        $appointment  = Appointment::whereId($id)->firstOrFail();
+        if ($checker == null) {
+
+            if($countRemainSlotUsed <= $Max){
+
+                $booking = new AppointUser;
+                $booking->appointment_id = $appointment->id;
+                $booking->user_id = $this->currentUser()->id;
+                $booking->save();
+
                 $data = compact('doctorMail', 'patientName', 'patientMail');
 
-                Mail::send(
+               Mail::send(
                     'Mail.Appointment',
                     $data,
                     function ($m) use ($data) {
@@ -91,15 +119,15 @@ class PatientController extends Controller
         $appointment  = Appointment::whereId($id)->firstOrFail();
         $patientMail = $this->currentUser()->email;
         $patientName =  $this->currentUser()->name;
-        $doctorMail = Doctor::whereId($appointment->doctor_id)->first();
+        $doctor = Doctor::whereId($appointment->doctor_id)->first();
+        $doctorMail = $doctor->email;
 
-        if($appointment->user_id == $this->currentUser()->id){
-            $appointment->user_id = null;
-            $appointment->save();
+        if($this->currentUser()->appointments != null){
+            $this->currentUser()->appointments->delete();
             $data = compact('doctorMail', 'patientName', 'patientMail');
 
-            Mail::send(
-                'Mail.Appointment',
+           Mail::send(
+                'Mail.CancelAppointment',
                 $data,
                 function ($m) use ($data) {
                 $m->to($data['doctorMail'])->subject('Notification Message From'.env('APP_NAME'));

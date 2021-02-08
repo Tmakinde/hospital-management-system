@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Appointment;
+use Mail;
 use Auth;
+//
 class DoctorController extends Controller
 {
     //
@@ -28,7 +30,7 @@ class DoctorController extends Controller
         return view('Doctor.Appointment', compact('appointments'));
     }
 
-    public function createAppointment(Request $request){;
+    public function createAppointment(Request $request){
         $user = Auth::user();
         $timeslot = $request->appointment;
         $query = Appointment::where('doctor_id', $this->currentUser()->id)->get();
@@ -46,10 +48,14 @@ class DoctorController extends Controller
             $appointment  = new Appointment;
             $appointment->appointment  = $timeslot;
             $appointment->doctor_id = $user->id;
+            $appointment->max = $request->max;
             $appointment->save();
             return redirect()->route('doctor.appointment')->with(['message' => 'Appointment Created Successfully']);
+            
         }
-        return redirect()->back()->with(['message' => 'Oh! You have a appointment for this already']);
+        return response()->json([
+            'message' => 'Oh! You have a appointment for this already'
+        ], 200);
 
     }
 
@@ -58,7 +64,8 @@ class DoctorController extends Controller
                         ->where('doctor_id', $this->currentUser()->id)
                         ->firstOrFail();
         $appointment->delete();
-        return redirect()->back()->with(['message' => 'Appointment Deleted Successfully']);
+       return redirect()->back()->with(['message' => 'Appointment Deleted Successfully']);
+      
     }
 
     public function displaySelfAppointment(Request $request){

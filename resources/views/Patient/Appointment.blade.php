@@ -47,8 +47,8 @@ Hospital Web App  | All Appointments
                 <div class="card-body" style="float:center;width:100%;">
                     <span>Time: {{$availableAppointment->appointment}}</span><br>
                     <form action="{{route('patient.appointment.save', $availableAppointment->id)}}" method="post">
-                        @csrf
-                        <input style="margin-top:10px" type="submit" value="Claim Appointment" class="btn btn-success">
+                    @csrf
+                    <input type="submit" value="Claim Appointment" class="btn btn-success">
                     </form>
                 </div>
             </div>

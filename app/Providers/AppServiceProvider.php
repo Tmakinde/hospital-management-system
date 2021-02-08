@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         view()->composer('*', function($view){
-            $countAvailableAppointment = Appointment::where('user_id', null)->count();
+            $countAvailableAppointment = 0;
             if (auth()->check()) {
                 view()->share('countAvailableAppointment', $countAvailableAppointment);
             }

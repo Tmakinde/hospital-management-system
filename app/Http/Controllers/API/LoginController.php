@@ -3,56 +3,65 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Illuminate\support\Facades\Auth;
-use Validator;
 use App\Models\User;
-
+use Auth;
 class LoginController extends Controller
 {
-    public function __construct(){
-        return $this->middleware('guest:api')->except('logout');
+    /*
+    |--------------------------------------------------------------------------
+    | Login Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles authenticating users for the application and
+    | redirecting them to your home screen. The controller uses a trait
+    | to conveniently provide its functionality to your applications.
+    |
+    */
+
+    use AuthenticatesUsers;
+
+    /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+    protected $redirectTo = RouteServiceProvider::HOME;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+    }
+
+    public function login(Request $request){
+        return view('Patient.Login');
     }
 
     public function authenticate(Request $request){
-        $validator = Validator::make($request->all(), [
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
 
-        if($validator->passes()){
-            $email = $request->input('email');
-            $user = User::where('email', $email)->first();
-            $credentials = $request->only('password', 'email');
-
-            if($token = auth()->attempt($credentials)){
-
-                return response()->json([
-
-                    'token' => $this->respondWithToken($token),
-
-                ], 200);
-
-            }
-
+        $credentials = $request->only('email', 'password');
+        if ($token = Auth::guard('web')->attempt($credentials)) {
             return response()->json([
-                'message' => "provide a valid details",
-            ], 401);
+                'message' => 'User successfully signin',
+                'token' => $token,
+
+            ], 200);
         }
-
         return response()->json([
-            'message' => $validator->errors(),
+            'message' => 'Incorrect Login Credentials',
         ], 401);
-        
     }
 
-    protected function respondWithToken($token)
-    {
-        
-        return response()->json([
-            'access_token' => $token,
-            'token_type'=> 'bearer',
-        ]);
-
+    public function logout(){
+        Auth::logout();
+        return redirect()->to(route('patientlogin.show'));
     }
+    
 }

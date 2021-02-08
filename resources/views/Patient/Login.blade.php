@@ -8,8 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Alakada | Login</title>
     <!-- include libraries(jQuery, bootstrap) -->
-    <link rel="stylesheet" href="{{ url('css/bootstrap.min.css') }}">
-    
+    <link rel="stylesheet" href="{{asset('/css/bootstrap.min.css')}}"> 
     </head>
 
 <style>

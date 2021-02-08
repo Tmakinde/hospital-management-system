@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Auth;
-class LoginController extends Controller
+class DoctorLoginController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -37,19 +37,26 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:api')->except('logout');
+        $this->middleware('guest')->except('logout');
     }
 
     public function login(Request $request){
         return view('Patient.Login');
     }
+
     public function authenticate(Request $request){
 
         $credentials = $request->only('email', 'password');
-        if (Auth::guard('web')->attempt($credentials)) {
-            return redirect()->intended(route('patient.dashboard'));
+        if ($token = Auth::guard('web')->attempt($credentials)) {
+            return response()->json([
+                'message' => 'User successfully signin',
+                'token' => $token,
+
+            ], 200);
         }
-        return redirect()->back()->withInput()->withErrors('Incorrect Login Credentials');
+        return response()->json([
+            'message' => 'Incorrect Login Credentials',
+        ], 401);
     }
 
     public function logout(){

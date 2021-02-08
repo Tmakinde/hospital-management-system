@@ -8,13 +8,8 @@
   <title>@yield('title')</title>
   <!-- jquery link -->
   <script src = "https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-    
-    <link rel="stylesheet" href="{{ url('css/bootstrap.min.css') }}">
-
-    <!-- include summernote css/js -->
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+  <link rel="stylesheet" href="{{ url('/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url('/css/css/all.css') }}">
     <style>
         .jumbotron{
             margin-top:180px;clear:top;
@@ -61,21 +56,19 @@
 </head>
 
   <body id ="body">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">HOSPITAL WEB APP</a>
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-dark navbar-dark text-right">
+        HOSPITAL WEB APP
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item m-auto pl-lg-5">
-                    <a class="nav-link " href="#">Dashboard</a>
+                    <a class="nav-link " href="{{route('doctor.dashboard')}}">Dashboard</a>
                 </li>
                 <li class="nav-item m-auto pl-lg-5">
-                    <a class="nav-link" href="{{route('doctor.appointment')}}">My Appointments</a>
-                </li>
-                <li class="nav-item m-auto pl-lg-5">
-                <a class="nav-link" href="#">Messages<i class="fas fa-bell ml-2"></i></a>
+                    <a class="nav-link" href="{{route('doctor.appointment')}}">Appointment</a>
                 </li>
                 <li class="nav-item m-auto pl-lg-5">
                 <a class="nav-link" href="{{route('doctor.logout')}}">Sign out</a> 
@@ -83,10 +76,12 @@
             </ul>
         </div>
     </nav>
+
         @yield('content')
 
         @yield('scripts')
-        <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>  
+        <script type="text/javascript" src="{{asset('js/sign-in-page/js/jquery-3.5.1.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('/js/bootstrap.min.js')}}"></script>  
         @show
     </body>
 </html>

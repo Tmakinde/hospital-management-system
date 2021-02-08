@@ -58,4 +58,8 @@ class Doctor extends Authenticatable implements JWTSubject
         return $this->hasMany(Appointment::class);
     }
 
+    public function appointmentCounter($timeslot){
+        return Appointment::where('appointment', $timeslot)->get();
+    }
+
 }

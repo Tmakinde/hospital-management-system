@@ -49,6 +49,7 @@ class DoctorLoginController extends Controller
 
         $credentials = $request->only('email', 'password');
 
+        $user = User::where('email',$request->email)->first();
         if (Auth::guard('doctors')->attempt($credentials)) {
             
             return redirect()->intended(route('doctor.dashboard'));

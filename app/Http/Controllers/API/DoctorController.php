@@ -8,14 +8,15 @@ use App\Models\User;
 use App\Models\Doctor;
 use App\Models\Appointment;
 use App\Models\AppointUser;
-use Mail;
 use Auth;
+use Mail;
 
-class PatientController extends Controller
+class DoctorController extends Controller
 {
     public function __construct(){
         return $this->middleware('auth')->except('index');
     }
+    
     public function index(){
         return view('Patient.dashboard');
     }
@@ -33,7 +34,6 @@ class PatientController extends Controller
     public function showAppointmentPage(Request $request){
 
         $appointment = $this->currentUser()->appointments;
-        $appointment = Appointment::where('id', $appointment->appointment_id)->first();
         $availableAppointments = Appointment::all();
 
         return response()->json([
