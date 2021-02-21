@@ -14,8 +14,9 @@ use Auth;
 class PatientController extends Controller
 {
     public function __construct(){
-        return $this->middleware('guest');
+        return $this->middleware('auth:userAPI');
     }
+    
     public function index(){
         return view('Patient.dashboard');
     }
