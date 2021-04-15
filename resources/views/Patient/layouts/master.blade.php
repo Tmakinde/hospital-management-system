@@ -9,8 +9,24 @@
   <!-- jquery link -->
   <script src = "https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <link rel="stylesheet" href="{{ url('/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url('/style.css') }}">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js" charset="utf-8"></script>
     <style>
+        
+        @media screen and (max-width:760px){
+            .loginbox{
+                display: flex;
+                flex-direction: column wrap;
+                margin-top: 1200px;
+            }
+            .col-md-6{
+                display: flex;
+                flex-direction: column wrap;
+                width: 100%;
+                clear: both;
+            }
+        }
+
         .jumbotron{
             margin-top:180px;clear:top;
         }

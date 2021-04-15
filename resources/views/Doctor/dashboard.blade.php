@@ -6,7 +6,11 @@ Hospital Web App  | Dashboard
 
 @section('content')
 <div class="container">
-    <canvas style="padding-top:100px" id="myChart" height="280" width="600"></canvas>
+    <div class="row">
+        <div class="offset-md-3 col-md-6 col-sm-6">
+            <canvas style="padding-top:100px" id="myChart" height="100%" width="100%"></canvas>
+        </div>
+    </div>
 </div>
 
 <script>

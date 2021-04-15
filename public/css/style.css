@@ -1,0 +1,9 @@
+@media screen and (max-width:1000px){
+    .loginbox{
+        display: flex;
+        flex-direction: column;
+    }
+    .col-md-6{
+        clear: both;display: block;
+    }
+}

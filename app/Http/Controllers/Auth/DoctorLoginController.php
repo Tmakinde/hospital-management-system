@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Doctor;
 use Auth;
 class DoctorLoginController extends Controller
 {
@@ -49,7 +50,7 @@ class DoctorLoginController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        $user = User::where('email',$request->email)->first();
+        $user = Doctor::where('email',$request->email)->first();
         if (Auth::guard('doctors')->attempt($credentials)) {
             
             return redirect()->intended(route('doctor.dashboard'));
@@ -60,7 +61,7 @@ class DoctorLoginController extends Controller
     }
 
     public function logout(){
-        Auth::logout();
+        auth()->guard('doctors')->logout();
         return redirect()->to(route('doctorlogin.show'));
     }
     

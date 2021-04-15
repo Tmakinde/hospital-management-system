@@ -23,7 +23,7 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                if($guard == 'doctor'){
+                if($guard == 'doctors'){
                     return redirect()->route('doctor.dashboard');
                 }elseif($guard == 'web'){
                     return redirect()->route('patient.dashboard');

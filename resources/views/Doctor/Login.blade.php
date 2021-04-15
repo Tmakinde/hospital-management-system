@@ -21,13 +21,11 @@ background-color:whitesmoke;
 }
 </style>
 
-<body style="background-color:blue">
+<body style="background-image: url('{{asset('/img/img3.jpg')}}');width:100%">
   <div class="">
     <div class="row" style="width:100%">
-      <div class="col-md-6 col-sm-4 ratio-box" style="margin-bottom:-255px">
-        <img class="mediabox-img lazyload" src="{{asset('/img/img3.jpg')}}" width="100%" style="height:100%">
-      </div>
-      <div class="col-md-6 col-sm-8 pt-sm-5">
+      <div class="offset-md-3 offset-lg-3 col-sm-3"></div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
         <div class="pt-5">
           <form method = 'post' action = "{{route('doctor.login')}}" style="100%">
             @csrf
@@ -72,7 +70,7 @@ background-color:whitesmoke;
               </div>
             </div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-            <span class="mt-5 ml-5" style="float:right;"><a href = "{{route('patientlogin.show')}}" class = 'mt-2'><b style="color:black">Login As a Patient</b></a></span>
+            <span class="mt-5 ml-5" style="float:right;"><a href = "{{route('patientlogin.show')}}" class = 'mt-2'><b style="color:red">Login As a Patient</b></a></span>
             <p class="mt-5 mb-3" style="color:black">&copy; 2020</p>
           </form>
         </div>

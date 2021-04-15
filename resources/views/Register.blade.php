@@ -19,16 +19,11 @@
   }
 </style>
 
-<body style="background-color:blue">
-  <div class="">
-    <div class="row" style="width:100%">
-      <div class="col-md-6 col-sm-6" style="margin-bottom:-255px">
-        <img class="mediabox-img lazyload" src="{{asset('/img/img3.jpg')}}" width="100%" style="height:100%">
-      </div>
-      <div class="col-md-6 col-sm-6" style="margin-bottom:-255px">
+<body style="background-image: url('{{asset('/img/img3.jpg')}}');width:100%">
+<div class="row" style="width:100%">
+    <div class="offset-md-3 offset-lg-3 col-sm-3"></div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
       <form class="p-3 mx-auto" style="width:100%" action = "{{route('register')}}" method = "post">
-      
-        
       <h1 class="h3 mb-3 font-weight-normal">Registration</h1>
       @csrf
         @if ($errors->any())
@@ -69,7 +64,7 @@
       </div>
       
        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-       <span class="" style="float:right;"><a href = "{{route('doctorlogin.show')}}"><b style="color:black">Login As a Doctor</b></a></span>
+       <span class="" style="float:right;"><a href = "{{route('doctorlogin.show')}}"><b style="color:red">Login As a Doctor</b></a></span>
       <p class="mt-1 mb-3 text-muted">@hospital &copy; 2020</p>
     </form>
       </div>
