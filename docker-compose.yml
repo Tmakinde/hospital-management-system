@@ -1,0 +1,35 @@
+version: '3'
+services:
+  webapp:
+    build:
+      context: .
+    container_name: hms_main_app
+    labels:
+      - "com.host.name=hms"
+      - "com.host.description=hospital management application"
+    networks:
+     - hms_network
+    depends_on:
+      - mysql-db
+    environment:
+      - APP_NAME=hms
+      - DB_DATABASE=hms_db
+      - DB_USERNAME=root
+      - DB_PASSWORD=makinde77
+      - DB_HOST=mysql-db
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/var/www/hms
+    command: ["./scripts/start.sh", "httpd", "-DFOREGROUND"]
+  mysql-db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: makinde77
+      MYSQL_DATABASE: hms_db
+      MYSQL_USER: hms_user
+    networks:
+      - hms_network
+networks:
+  hms_network:
+    driver: bridge
