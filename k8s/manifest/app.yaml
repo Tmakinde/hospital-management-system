@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hms-deployment
+  labels:
+    app: hms-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hms-pod
+  template:
+    metadata:
+      labels:
+        app: hms-pod
+    spec:
+      containers:
+        - name: hms
+          image: tmakinde/hms:latest
+          ports:
+            - name: web
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: DB_HOST
+              value: mysql.makinde-ns.svc.cluster.local
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret
+                  key: databasename
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret
+                  key: password
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mainapp-service
+spec:
+  type: NodePort
+  selector:
+    name: hms-pod
+  ports:
+    - port: 4000
+      targetPort: 8080
+      nodePort: 30002
